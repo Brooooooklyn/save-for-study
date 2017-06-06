@@ -5,8 +5,9 @@ import { MyApp } from './app.component'
 
 import { AboutPage } from '../pages/about/about'
 import { ContactPage } from '../pages/contact/contact'
-import { HomePage } from '../pages/home/home'
+import { ProjectsComponent } from '../pages/projects'
 import { TabsPage } from '../pages/tabs/tabs'
+import { InjectableSDK } from '../sdk'
 
 import { StatusBar } from '@ionic-native/status-bar'
 import { SplashScreen } from '@ionic-native/splash-screen'
@@ -16,7 +17,7 @@ import { SplashScreen } from '@ionic-native/splash-screen'
     MyApp,
     AboutPage,
     ContactPage,
-    HomePage,
+    ProjectsComponent,
     TabsPage
   ],
   imports: [
@@ -28,12 +29,13 @@ import { SplashScreen } from '@ionic-native/splash-screen'
     MyApp,
     AboutPage,
     ContactPage,
-    HomePage,
+    ProjectsComponent,
     TabsPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    InjectableSDK,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
