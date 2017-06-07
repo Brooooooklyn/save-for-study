@@ -18,12 +18,12 @@ export class ProjectsComponent {
     sdk.getPreference()
       .changes()
       .subscribe(r => {
-        console.log(r)
+        console.info(r)
       })
     sdk.getOrganizations()
       .changes()
       .subscribe(r => {
-        console.log(r)
+        console.info(r)
       })
   }
 

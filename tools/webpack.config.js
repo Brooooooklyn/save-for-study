@@ -1,0 +1,122 @@
+'use strict'
+
+const os = require('os')
+const webpack = require('webpack')
+const path = require('path')
+const config = require('config')
+const HappyPack = require('happypack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ForkTsCheckerNotifierWebpackPlugin = require('fork-ts-checker-notifier-webpack-plugin')
+
+const CDN_URL = process.env.CDN_URL
+
+const imageName = 'images/[name].[hash:8].[ext]'
+const fontName = 'fonts/[name].[hash:8].[ext]'
+const videoName = 'videos/[name].[hash:8].[ext]'
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
+
+module.exports = {
+
+  context: path.join(process.cwd(), 'src'),
+
+  output: {
+    path: path.join(process.cwd(), 'www'),
+    publicPath: CDN_URL || config.CDN_URL || '/'
+  },
+
+  entry: {
+    vender: [ './app/main.ts' ],
+    common: [ './common.ts' ]
+  },
+
+  resolve: {
+    extensions: ['.js', '.ts', '.html', '.styl']
+  },
+
+  resolveLoader: {
+    modules: [
+      path.resolve(process.cwd(), 'node_modules')
+    ]
+  },
+  module: {
+    rules: [
+      {
+        test: /\.html$/,
+        use: 'happypack/loader?id=html'
+      },
+      {
+        test: /\.ts$/,
+        use: 'happypack/loader?id=ts',
+        exclude: [ /node_modules/ ]
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        loader: 'url-loader',
+        query: {
+          limit: 2048,
+          name: imageName
+        }
+      },
+      {
+        test: /\.woff((\?|#)[?#\w\d_-]+)?$/,
+        loader: 'url-loader',
+        query: {
+          limit: 100,
+          minetype: 'application/font-woff',
+          name: fontName
+        }
+      },
+      {
+        test: /\.woff2((\?|#)[?#\w\d_-]+)?$/,
+        loader: 'url-loader',
+        query: {
+          limit: 100,
+          minetype: 'application/font-woff2',
+          name: fontName
+        }
+      },
+      {
+        test: /\.ttf((\?|#)[?#\w\d_-]+)?$/,
+        loader: 'url-loader',
+        query: {
+          limit: 100,
+          minetype: 'application/octet-stream',
+          name: fontName
+        }
+      },
+      {
+        test: /\.eot((\?|#)[?#\w\d_-]+)?$/,
+        loader: 'url-loader',
+        query: {
+          limit: 100,
+          name: fontName
+        }
+      }
+    ]
+  },
+
+  plugins: [
+    new HappyPack({
+      id: 'html',
+      threadPool: happyThreadPool,
+      loaders: ['html-loader']
+    }),
+
+    new HappyPack({
+      id: 'ts',
+      threadPool: happyThreadPool,
+      loaders: ['ts-loader?transpileOnly=true&happyPackMode=true']
+    }),
+
+    new webpack.ContextReplacementPlugin(
+      /(ionic-angular)|(angular(\\|\/)core(\\|\/)@angular)/,
+      path.resolve(process.cwd(), 'src')
+    ),
+
+    new HtmlWebpackPlugin({
+      template: path.join(process.cwd(), 'src/index.html')
+    }),
+
+    new ForkTsCheckerNotifierWebpackPlugin()
+  ]
+}
