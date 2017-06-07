@@ -17,18 +17,7 @@ function getOrganizations (this: SDK) {
     tableName: 'Organization',
     request: this.fetch.getOrganizations(),
     cacheValidate: CacheStrategy.Request,
-    query: {
-      where: {
-       $or: [
-         {
-           isArchived: null
-         },
-         {
-           isArchived: false
-         }
-       ]
-      }
-    }
+    query: { }
   })
 }
 

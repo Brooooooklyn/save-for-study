@@ -15,9 +15,11 @@ const fontName = 'fonts/[name].[hash:8].[ext]'
 const videoName = 'videos/[name].[hash:8].[ext]'
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
 
+const rootDir = path.join(process.cwd(), 'src')
+
 module.exports = {
 
-  context: path.join(process.cwd(), 'src'),
+  context: rootDir,
 
   output: {
     path: path.join(process.cwd(), 'www'),
@@ -25,12 +27,16 @@ module.exports = {
   },
 
   entry: {
+    polyfill: ['./polyfill.ts'],
+    common: [ './common.ts' ],
     vender: [ './app/main.ts' ],
-    common: [ './common.ts' ]
   },
 
   resolve: {
-    extensions: ['.js', '.ts', '.html', '.styl']
+    extensions: ['.js', '.ts', '.html', '.styl'],
+    alias: {
+      sdk: `${ rootDir }/sdk`
+    }
   },
 
   resolveLoader: {
@@ -46,7 +52,7 @@ module.exports = {
       },
       {
         test: /\.ts$/,
-        use: 'happypack/loader?id=ts',
+        loaders: [ 'happypack/loader?id=ts', 'happypack/loader?id=template' ],
         exclude: [ /node_modules/ ]
       },
       {
@@ -108,15 +114,26 @@ module.exports = {
       loaders: ['ts-loader?transpileOnly=true&happyPackMode=true']
     }),
 
+    new HappyPack({
+      id: 'template',
+      threadPool: happyThreadPool,
+      loaders: ['angular2-template-loader']
+    }),
+
     new webpack.ContextReplacementPlugin(
       /(ionic-angular)|(angular(\\|\/)core(\\|\/)@angular)/,
       path.resolve(process.cwd(), 'src')
     ),
 
     new HtmlWebpackPlugin({
-      template: path.join(process.cwd(), 'src/index.html')
+      template: path.join(process.cwd(), 'src/index.html'),
+      chunksSortMode: 'dependency'
     }),
 
-    new ForkTsCheckerNotifierWebpackPlugin()
+    new ForkTsCheckerNotifierWebpackPlugin(),
+
+    new webpack.optimize.CommonsChunkPlugin({
+      name: ['common', 'polyfill']
+    }),
   ]
 }

@@ -1,6 +1,9 @@
+import 'rxjs/add/operator/startWith'
 import { Component } from '@angular/core'
-import { NavController } from 'ionic-angular'
-import { InjectableSDK } from '../../sdk'
+import { NavController, PopoverController } from 'ionic-angular'
+import { InjectableSDK } from 'sdk'
+
+import { OrgsPopover } from './orgs-popover.component'
 
 @Component({
   selector: 'projects',
@@ -8,23 +11,28 @@ import { InjectableSDK } from '../../sdk'
 })
 export class ProjectsComponent {
 
+  preference$ = this.sdk
+    .getPreference()
+    .changes()
+
+  orgs$ = this.sdk
+    .getOrganizations()
+    .changes()
+    .startWith([])
+
   constructor(
+    public popoverCtrl: PopoverController,
     public navCtrl: NavController,
     private sdk: InjectableSDK
   ) { }
 
-  ngOnInit() {
-    const { sdk } = this
-    sdk.getPreference()
-      .changes()
-      .subscribe(r => {
-        console.info(r)
-      })
-    sdk.getOrganizations()
-      .changes()
-      .subscribe(r => {
-        console.info(r)
-      })
-  }
 
+  selectOrg(ev: Event) {
+    const popover = this.popoverCtrl.create(OrgsPopover, {
+      organizations: []
+    })
+    popover.present({
+      ev: ev
+    })
+  }
 }

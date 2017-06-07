@@ -5,7 +5,7 @@ import { MyApp } from './app.component'
 
 import { AboutPage } from '../pages/about/about'
 import { ContactPage } from '../pages/contact/contact'
-import { ProjectsComponent } from '../pages/projects'
+import { ProjectsComponent, OrgsPopover } from '../pages/projects'
 import { TabsPage } from '../pages/tabs/tabs'
 import { InjectableSDK } from '../sdk'
 
@@ -18,7 +18,8 @@ import { SplashScreen } from '@ionic-native/splash-screen'
     AboutPage,
     ContactPage,
     ProjectsComponent,
-    TabsPage
+    TabsPage,
+    OrgsPopover
   ],
   imports: [
     BrowserModule,
@@ -30,7 +31,8 @@ import { SplashScreen } from '@ionic-native/splash-screen'
     AboutPage,
     ContactPage,
     ProjectsComponent,
-    TabsPage
+    TabsPage,
+    OrgsPopover
   ],
   providers: [
     StatusBar,

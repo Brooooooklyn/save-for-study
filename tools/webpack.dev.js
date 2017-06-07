@@ -11,8 +11,7 @@ const jsName = 'build/[name].js'
 
 const config = webpackMerge(commonConfig, {
   output: {
-    filename: jsName,
-    pathinfo: true
+    filename: jsName
   },
 
   resolve: {
@@ -32,12 +31,12 @@ const config = webpackMerge(commonConfig, {
       {
         enforce: 'pre',
         test: /\.js$/,
-        loader: 'happypack/loader?id=sourceMap',
+        loaders: [ 'cache-loader', 'happypack/loader?id=sourceMap' ],
         exclude: [/(lovefield)|(ionic)|(@angular)/]
       },
       {
         test: /\.css$/,
-        use: 'happypack/loader?id=css'
+        loaders: [ 'cache-loader', 'happypack/loader?id=css' ]
       },
       {
         test: /\.styl$/,
