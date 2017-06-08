@@ -1,11 +1,12 @@
 import { NgModule, ErrorHandler } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular'
 import { MyApp } from './app.component'
 
 import { AboutPage } from '../pages/about/about'
 import { ContactPage } from '../pages/contact/contact'
-import { ProjectsComponent, OrgsPopover } from '../pages/projects'
+import { ProjectsModule } from '../pages/projects'
 import { TabsPage } from '../pages/tabs/tabs'
 import { InjectableSDK } from '../sdk'
 
@@ -17,22 +18,20 @@ import { SplashScreen } from '@ionic-native/splash-screen'
     MyApp,
     AboutPage,
     ContactPage,
-    ProjectsComponent,
     TabsPage,
-    OrgsPopover
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    BrowserAnimationsModule,
+    IonicModule.forRoot(MyApp),
+    ProjectsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     AboutPage,
     ContactPage,
-    ProjectsComponent,
     TabsPage,
-    OrgsPopover
   ],
   providers: [
     StatusBar,

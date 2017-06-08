@@ -9,7 +9,7 @@ import { TabsPage } from '../pages/tabs/tabs'
 import { InjectableSDK } from '../sdk'
 
 @Component({
-  templateUrl: 'app.html'
+  template: require('./app.html')
 })
 export class MyApp {
   rootPage: any = TabsPage

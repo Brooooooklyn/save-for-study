@@ -1,38 +1,34 @@
-import 'rxjs/add/operator/startWith'
-import { Component } from '@angular/core'
-import { NavController, PopoverController } from 'ionic-angular'
+import { Component, ViewChild } from '@angular/core'
+import { NavController } from 'ionic-angular'
 import { InjectableSDK } from 'sdk'
 
-import { OrgsPopover } from './orgs-popover.component'
+import { OrgsDropdown } from './orgs-dropdown'
 
 @Component({
   selector: 'projects',
-  templateUrl: 'projects.html'
+  template: require('./projects.html'),
+  entryComponents: [ OrgsDropdown ]
 })
 export class ProjectsComponent {
 
-  preference$ = this.sdk
+  lastWorkspaceId$ = this.sdk
     .getPreference()
-    .changes()
+    .values()
+    .map(([r]: any) => r.lastWorkspace)
 
   orgs$ = this.sdk
     .getOrganizations()
     .changes()
-    .startWith([])
+
+  @ViewChild(OrgsDropdown) private popover: OrgsDropdown
 
   constructor(
-    public popoverCtrl: PopoverController,
     public navCtrl: NavController,
     private sdk: InjectableSDK
   ) { }
 
-
-  selectOrg(ev: Event) {
-    const popover = this.popoverCtrl.create(OrgsPopover, {
-      organizations: []
-    })
-    popover.present({
-      ev: ev
-    })
+  selectOrg() {
+    this.popover.toggle()
   }
+
 }

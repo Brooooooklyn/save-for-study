@@ -2,10 +2,10 @@ import { Component } from '@angular/core'
 
 import { AboutPage } from '../about/about'
 import { ContactPage } from '../contact/contact'
-import { ProjectsComponent } from '../projects'
+import { ProjectsComponent } from '../projects/projects.component'
 
 @Component({
-  templateUrl: 'tabs.html'
+  template: require('./tabs.html')
 })
 export class TabsPage {
 
@@ -13,7 +13,4 @@ export class TabsPage {
   tab2Root = AboutPage
   tab3Root = ContactPage
 
-  constructor() {
-
-  }
 }

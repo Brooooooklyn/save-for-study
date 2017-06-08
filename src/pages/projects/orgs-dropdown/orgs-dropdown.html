@@ -1,0 +1,7 @@
+<ion-list [@dropDown]="state" class="orgs-dropdown">
+  <ion-item
+    *ngFor="let org of organizations"
+    (click)="close(org._id)">
+    {{ org.name }}
+  </ion-item>
+</ion-list>

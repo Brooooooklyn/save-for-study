@@ -48,55 +48,65 @@ module.exports = {
     rules: [
       {
         test: /\.html$/,
-        use: 'happypack/loader?id=html'
+        loaders: [ 'cache-loader', 'happypack/loader?id=html' ]
       },
       {
         test: /\.ts$/,
-        loaders: [ 'happypack/loader?id=ts', 'happypack/loader?id=template' ],
+        loaders: [ 'cache-loader', 'happypack/loader?id=ts' ],
         exclude: [ /node_modules/ ]
       },
       {
         test: /\.(png|jpg|gif)$/,
-        loader: 'url-loader',
-        query: {
-          limit: 2048,
-          name: imageName
-        }
+        loaders: [ 'cache-loader', {
+          loader: 'url-loader',
+          query: {
+            limit: 2048,
+            name: imageName
+          }
+        }]
       },
       {
         test: /\.woff((\?|#)[?#\w\d_-]+)?$/,
-        loader: 'url-loader',
-        query: {
-          limit: 100,
-          minetype: 'application/font-woff',
-          name: fontName
-        }
+        loaders: [{
+          loader: 'url-loader',
+          query: {
+            limit: 100,
+            minetype: 'application/font-woff',
+            name: fontName
+          }
+        }]
       },
       {
         test: /\.woff2((\?|#)[?#\w\d_-]+)?$/,
-        loader: 'url-loader',
-        query: {
-          limit: 100,
-          minetype: 'application/font-woff2',
-          name: fontName
-        }
+        loaders: [{
+          loader: 'url-loader',
+          query: {
+            limit: 100,
+            minetype: 'application/font-woff2',
+            name: fontName
+          }
+        }]
       },
       {
         test: /\.ttf((\?|#)[?#\w\d_-]+)?$/,
-        loader: 'url-loader',
-        query: {
-          limit: 100,
-          minetype: 'application/octet-stream',
-          name: fontName
-        }
+        loaders: [{
+          loader: 'url-loader',
+          query: {
+            limit: 100,
+            minetype: 'application/octet-stream',
+            name: fontName
+          }
+        }]
       },
       {
         test: /\.eot((\?|#)[?#\w\d_-]+)?$/,
-        loader: 'url-loader',
-        query: {
-          limit: 100,
-          name: fontName
-        }
+        loaders: [{
+          loader: 'url-loader',
+          query: {
+            limit: 100,
+            name: fontName
+          }
+        }]
       }
     ]
   },
@@ -111,7 +121,7 @@ module.exports = {
     new HappyPack({
       id: 'ts',
       threadPool: happyThreadPool,
-      loaders: ['ts-loader?transpileOnly=true&happyPackMode=true']
+      loaders: [ 'ts-loader?transpileOnly=true&happyPackMode=true']
     }),
 
     new HappyPack({

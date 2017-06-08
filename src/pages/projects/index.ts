@@ -1,2 +1,1 @@
-export * from './projects.component'
-export * from './orgs-popover.component'
+export * from './projects.module'

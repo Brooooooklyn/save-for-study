@@ -4,9 +4,4 @@ import { SDK } from 'teambition-sdk'
 import { Injectable } from '@angular/core'
 
 @Injectable()
-export class InjectableSDK extends SDK {
-  constructor() {
-    super()
-    console.log(111)
-  }
-}
+export class InjectableSDK extends SDK { }

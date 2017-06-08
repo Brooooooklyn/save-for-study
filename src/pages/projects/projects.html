@@ -1,10 +1,16 @@
-<ion-header>
+<ion-header (click)="selectOrg($event)">
   <ion-navbar>
     <ion-title>
-      <span (click)="selectOrg($event)">1111</span>
+      1111
     </ion-title>
   </ion-navbar>
 </ion-header>
+
+<org-dropdown
+  [orgs]="orgs$ | async"
+  [selected]="lastWorkspaceId$ | async"
+>
+</org-dropdown>
 
 <ion-content padding>
 
